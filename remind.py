@@ -357,12 +357,10 @@ class Remind(object):
         if tail:
             rem.append(tail)
 
-        out = ' '.join(rem)
-
         if has_desc:
-            out += sep + Remind._rem_clean(vevent.description.value)
+            rem[-1] += sep + Remind._rem_clean(vevent.description.value)
 
-        return out
+        return ' '.join(rem)
 
     @staticmethod
     def _rem_clean(rem):
