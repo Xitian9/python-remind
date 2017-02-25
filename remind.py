@@ -543,7 +543,7 @@ def ics2rem():
     parser.add_argument('-t', '--tag', action='append',
                         help='Tag(s) for every Remind entry')
     parser.add_argument('--tail',
-                        help='Text to append to every remind summary, following final %"')
+                        help='Text to append to every remind summary, following final %%"')
     parser.add_argument('--sep', default=" ",
                         help='String to separate summary (and tail) from description')
     parser.add_argument('--postdate',
