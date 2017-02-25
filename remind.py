@@ -369,7 +369,10 @@ class Remind(object):
             trigdates = Remind._parse_rruleset(vevent.rruleset)
 
         if not hasattr(vevent, 'rdate') and not isinstance(trigdates, str):
-            remind.append(vevent.dtstart.value.strftime('%b %d %Y').replace(' 0', ' '))
+            if isinstance(vevent.dtstart.value, datetime) and vevent.dtstart.value.tzinfo:
+                remind.append(vevent.dtstart.value.astimezone(self._localtz).strftime('%b %d %Y').replace(' 0', ' '))
+            else:
+                remind.append(vevent.dtstart.value.strftime('%b %d %Y').replace(' 0', ' '))
 
         if priority:
             remind.append('PRIORITY %s' % priority)
