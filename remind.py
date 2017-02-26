@@ -374,6 +374,12 @@ class Remind(object):
         if isinstance(dtstart, datetime) and dtstart.tzinfo:
             dtstart = dtstart.astimezone(self._localtz)
 
+        dtend = None
+        if hasattr(vevent, 'dtend'):
+            dtend = vevent.dtend.value
+        if isinstance(dtend, datetime) and dtend.tzinfo:
+            dtend = dtend.astimezone(self._localtz)
+
         if not hasattr(vevent, 'rdate') and not isinstance(trigdates, str):
             remind.append(dtstart.strftime('%b %d %Y').replace(' 0', ' '))
 
@@ -387,9 +393,9 @@ class Remind(object):
 
         if isinstance(dtstart, date) and duration.days > 1:
             remind.append('*1')
-            if hasattr(vevent, 'dtend'):
-                vevent.dtend.value -= timedelta(days=1)
-                remind.append(vevent.dtend.value.strftime('UNTIL %b %d %Y').replace(' 0', ' '))
+            if dtend is not None:
+                dtend -= timedelta(days=1)
+                remind.append(dtend.strftime('UNTIL %b %d %Y').replace(' 0', ' '))
 
         if isinstance(dtstart, datetime):
             remind.append(dtstart.strftime('AT %H:%M').replace(' 0', ' '))
